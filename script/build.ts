@@ -1,4 +1,5 @@
 import path from "path";
+import { mkdirSync, existsSync, statSync } from "fs";
 
 import esbuild from "esbuild";
 import copyStaticFilesPlugin from "esbuild-copy-static-files";
@@ -58,14 +59,30 @@ function getBuildOptions({
   };
 }
 
+function checkOrCreateOutputDirectory() {
+  const outdir = Directory.OUTPUT;
+
+  if (!existsSync(outdir)) {
+    mkdirSync(outdir);
+  }
+
+  if (!statSync(outdir).isDirectory()) {
+    throw new Error(
+      `${outdir} is defined as output directory but is not a directory`
+    );
+  }
+}
+
 (async function main() {
   const production = process.env.NODE_ENV === "production";
   const watch = process.argv.includes("--watch");
   const buildOptions = getBuildOptions({ production, watch });
 
   try {
+    checkOrCreateOutputDirectory();
     await esbuild.build(buildOptions);
-  } catch (_: unknown) {
+  } catch (error: unknown) {
+    console.error(error);
     process.exit(1);
   }
 })();
