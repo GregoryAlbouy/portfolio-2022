@@ -1,37 +1,126 @@
-module Main exposing (Model, main)
+module Main exposing (main)
 
 import Browser
-import Html exposing (Html, div, h1, img, text)
-import Html.Attributes exposing (class, src)
-import Path
+import Browser.Navigation as Nav
+import Html exposing (Html, a, div, header, main_, nav, text)
+import Html.Attributes exposing (href)
+import Url exposing (Url)
+
+
+
+-- MODEL
 
 
 type alias Model =
-    String
+    { key : Nav.Key
+    , currentPage : Page
+    }
 
 
-view : Model -> Browser.Document msg
+init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init () url key =
+    ( { key = key, currentPage = parseUrl url }, Cmd.none )
+
+
+type Page
+    = About
+    | Projects
+    | NotFound
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UrlRequested Browser.UrlRequest
+    | UrlChanged Url
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        UrlRequested urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            ( { model | currentPage = parseUrl url }
+            , Cmd.none
+            )
+
+
+parseUrl : Url -> Page
+parseUrl url =
+    case url.path of
+        "/about" ->
+            About
+
+        "/projects" ->
+            Projects
+
+        _ ->
+            NotFound
+
+
+
+-- VIEW
+
+
+view : Model -> Browser.Document Msg
 view model =
-    { title = model
+    { title = "Gregory Albouy"
     , body =
-        [ viewWelcome model
+        [ viewHeader
+        , viewMain model.currentPage
         ]
     }
 
 
-viewWelcome : String -> Html msg
-viewWelcome message =
-    div [ class "welcome" ]
-        [ h1 [] [ text message ]
-        , img [ src (Path.img "elm-logo.svg") ] []
+viewHeader : Html Msg
+viewHeader =
+    header []
+        [ div [] [ text "Gregory Albouy" ]
+        , nav []
+            [ a [ href "./about" ] [ text "About" ]
+            , a [ href "./projects" ] [ text "Projects" ]
+            ]
         ]
 
 
-main : Program () Model msg
+viewMain : Page -> Html Msg
+viewMain currentPage =
+    let
+        content : String
+        content =
+            case currentPage of
+                About ->
+                    "About"
+
+                Projects ->
+                    "Projects"
+
+                NotFound ->
+                    "Page Not Found"
+    in
+    main_ [] [ text content ]
+
+
+
+-- MAIN
+
+
+main : Program () Model Msg
 main =
-    Browser.document
-        { init = \_ -> ( "Hello, World!", Cmd.none )
-        , update = \_ model -> ( model, Cmd.none )
-        , subscriptions = \_ -> Sub.none
+    Browser.application
+        { init = init
         , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        , onUrlRequest = UrlRequested
+        , onUrlChange = UrlChanged
         }
