@@ -4,6 +4,9 @@ import Browser
 import Browser.Navigation as Nav
 import Html exposing (Html, a, div, header, main_, nav, text)
 import Html.Attributes exposing (href)
+import PageAbout
+import PageNotFound
+import PageProjects
 import Url exposing (Url)
 
 
@@ -95,19 +98,19 @@ viewHeader =
 viewMain : Page -> Html Msg
 viewMain currentPage =
     let
-        content : String
+        content : Html msg
         content =
             case currentPage of
                 About ->
-                    "About"
+                    PageAbout.view
 
                 Projects ->
-                    "Projects"
+                    PageProjects.view
 
                 NotFound ->
-                    "Page Not Found"
+                    PageNotFound.view
     in
-    main_ [] [ text content ]
+    main_ [] [ content ]
 
 
 
