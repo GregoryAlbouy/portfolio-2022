@@ -16,7 +16,7 @@ import Url exposing (Url)
 
 type alias Model =
     { key : Nav.Key
-    , currentPage : Page
+    , currentPage : Maybe Page
     }
 
 
@@ -29,7 +29,6 @@ type Page
     = About
     | Projects
     | NotFound
-    | Unknown
 
 
 
@@ -54,35 +53,35 @@ update msg model =
 
         UrlChanged url ->
             let
-                page : Page
+                page : Maybe Page
                 page =
                     parseUrl url
             in
             case page of
-                Unknown ->
+                Nothing ->
                     ( model, Nav.pushUrl model.key "/not-found" )
 
-                _ ->
+                Just _ ->
                     ( { model | currentPage = page }, Cmd.none )
 
 
-parseUrl : Url -> Page
+parseUrl : Url -> Maybe Page
 parseUrl url =
     case url.path of
         "/" ->
-            About
+            Just About
 
         "/about" ->
-            About
+            Just About
 
         "/projects" ->
-            Projects
+            Just Projects
 
         "/not-found" ->
-            NotFound
+            Just NotFound
 
         _ ->
-            Unknown
+            Nothing
 
 
 
@@ -90,12 +89,12 @@ parseUrl url =
 
 
 view : Model -> Browser.Document Msg
-view model =
+view { currentPage } =
     { title = "Gregory Albouy"
     , body =
         [ viewMainHeader
         , viewMainNav
-        , viewPageContent model.currentPage
+        , viewPageContent (currentPage |> Maybe.withDefault NotFound)
         ]
     }
 
@@ -161,9 +160,6 @@ viewPageContent currentPage =
 
                 NotFound ->
                     PageNotFound.view
-
-                Unknown ->
-                    div [] []
     in
     main_ [] [ content ]
 
