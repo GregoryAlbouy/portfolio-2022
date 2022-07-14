@@ -3,7 +3,7 @@ module Main exposing (main)
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (Html, a, div, header, li, main_, nav, text, ul)
-import Html.Attributes exposing (class, href)
+import Html.Attributes exposing (class, classList, href)
 import PageAbout
 import PageNotFound
 import PageProjects
@@ -92,8 +92,8 @@ view model =
 viewMainHeader : Html Msg
 viewMainHeader =
     header [ class "main-header" ]
-        [ div [ class "main-logo" ] [ text "Gregory Albouy" ]
-        , div [ class "main-sublogo" ] [ text "Software Engineer" ]
+        [ div [ classList [ ( "main-logo", True ), ( "heading", True ) ] ] [ text "Gregory Albouy" ]
+        , div [ classList [ ( "main-sublogo", True ), ( "heading", True ) ] ] [ text "Software Engineer" ]
         ]
 
 
