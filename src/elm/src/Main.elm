@@ -22,13 +22,14 @@ type alias Model =
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init () url key =
-    ( { key = key, currentPage = parseUrl url }, Cmd.none )
+    update (UrlChanged url) { key = key, currentPage = parseUrl url }
 
 
 type Page
     = About
     | Projects
     | NotFound
+    | Unknown
 
 
 
@@ -52,9 +53,17 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | currentPage = parseUrl url }
-            , Cmd.none
-            )
+            let
+                page : Page
+                page =
+                    parseUrl url
+            in
+            case page of
+                Unknown ->
+                    ( model, Nav.pushUrl model.key "/not-found" )
+
+                _ ->
+                    ( { model | currentPage = page }, Cmd.none )
 
 
 parseUrl : Url -> Page
@@ -69,8 +78,11 @@ parseUrl url =
         "/projects" ->
             Projects
 
-        _ ->
+        "/not-found" ->
             NotFound
+
+        _ ->
+            Unknown
 
 
 
@@ -149,6 +161,9 @@ viewPageContent currentPage =
 
                 NotFound ->
                     PageNotFound.view
+
+                Unknown ->
+                    div [] []
     in
     main_ [] [ content ]
 
