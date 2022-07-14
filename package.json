@@ -1,8 +1,8 @@
 {
-  "name": "elm-starter",
+  "name": "gregoryalbouy-portfolio-elm",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "https://github.com/gregoryalbouy/elm-starter",
+  "repository": "https://github.com/gregoryalbouy/portfolio-elm",
   "author": "Gregory Albouy <gregoryalbouy75@gmail.com>",
   "license": "MIT",
   "scripts": {
