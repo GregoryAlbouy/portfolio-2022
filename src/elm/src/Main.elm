@@ -112,8 +112,8 @@ type alias LinkDefinition =
 
 navLinks : List LinkDefinition
 navLinks =
-    [ { to = "./about", display = "About" }
-    , { to = "./projects", display = "Projects" }
+    [ { to = "/about", display = "About" }
+    , { to = "/projects", display = "Projects" }
     ]
 
 
