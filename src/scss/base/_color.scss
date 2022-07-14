@@ -1,0 +1,16 @@
+:root {
+  --color-cyan-light: #00ffee;
+  --color-grey-medium: #cccccc;
+  --color-grey-dark: #888888;
+  --color-anthracite-dark: #181822;
+  --color-anthracite-darker: #0e0e15;
+
+  --theme-background: var(--color-anthracite-dark);
+  --theme-foreground: var(--color-grey-medium);
+  --theme-accent: var(--color-cyan-light);
+}
+
+html {
+  background-color: var(--theme-background);
+  color: var(--theme-foreground);
+}
