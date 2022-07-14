@@ -60,6 +60,9 @@ update msg model =
 parseUrl : Url -> Page
 parseUrl url =
     case url.path of
+        "/" ->
+            About
+
         "/about" ->
             About
 
