@@ -2,8 +2,8 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
-import Html exposing (Html, a, div, header, main_, nav, text)
-import Html.Attributes exposing (href)
+import Html exposing (Html, a, div, header, li, main_, nav, text, ul)
+import Html.Attributes exposing (class, href)
 import PageAbout
 import PageNotFound
 import PageProjects
@@ -78,25 +78,62 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Gregory Albouy"
     , body =
-        [ viewHeader
-        , viewMain model.currentPage
+        [ viewMainHeader
+        , viewMainNav
+        , viewPageContent model.currentPage
         ]
     }
 
 
-viewHeader : Html Msg
-viewHeader =
-    header []
-        [ div [] [ text "Gregory Albouy" ]
-        , nav []
-            [ a [ href "./about" ] [ text "About" ]
-            , a [ href "./projects" ] [ text "Projects" ]
-            ]
+
+-- VIEW main-header
+
+
+viewMainHeader : Html Msg
+viewMainHeader =
+    header [ class "main-header" ]
+        [ div [ class "main-logo" ] [ text "Gregory Albouy" ]
+        , div [ class "main-sublogo" ] [ text "Software Engineer" ]
         ]
 
 
-viewMain : Page -> Html Msg
-viewMain currentPage =
+
+-- VIEW main-nav
+
+
+type alias LinkDefinition =
+    { to : String
+    , display : String
+    }
+
+
+navLinks : List LinkDefinition
+navLinks =
+    [ { to = "./about", display = "About" }
+    , { to = "./projects", display = "Projects" }
+    ]
+
+
+viewMainNav : Html Msg
+viewMainNav =
+    let
+        toItem : LinkDefinition -> Html msg
+        toItem { to, display } =
+            li
+                [ class "nav-item" ]
+                [ a [ href to, class "nav-link" ] [ text display ] ]
+    in
+    nav
+        [ class "main-nav" ]
+        [ ul [ class "nav-list" ] (navLinks |> List.map toItem) ]
+
+
+
+-- VIEW content
+
+
+viewPageContent : Page -> Html Msg
+viewPageContent currentPage =
     let
         content : Html msg
         content =
