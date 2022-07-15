@@ -1,0 +1,32 @@
+@use '../base/responsive' as r;
+
+$step: 30rem;
+$size-factors: (
+  "xs": 1,
+  "s": 2,
+  "m": 3,
+  "l": 4,
+);
+
+@function get-content-width($size) {
+  @if not map-has-key($size-factors, $size) {
+    @error "Invalid size: $size: expect a valid key of $size-factors";
+  }
+
+  $factor: map-get($size-factors, $size);
+  @return $step * $factor;
+}
+
+@mixin layout-content-width($size) {
+  --layout-content-width: #{get-content-width($size)};
+}
+
+:root {
+  @include layout-content-width("xs");
+
+  @each $size in ("s", "m", "l") {
+    @include r.respond-to($size) {
+      @include layout-content-width($size);
+    }
+  }
+}
