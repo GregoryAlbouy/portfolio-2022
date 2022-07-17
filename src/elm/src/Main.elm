@@ -4,11 +4,10 @@ import Browser
 import Browser.Navigation as Nav
 import Html exposing (Html, a, div, header, li, main_, nav, text, ul)
 import Html.Attributes exposing (class, classList, href)
-import PageAbout
-import PageNotFound
-import PageProjects
+import Page.About
+import Page.NotFound
+import Page.Projects
 import Url exposing (Url)
-import Url.Builder
 
 
 
@@ -100,7 +99,7 @@ view { currentPage } =
     , body =
         [ viewMainHeader
         , viewMainNav currentPage
-        , viewPageContent (currentPage |> Maybe.withDefault NotFound)
+        , viewMainContent (currentPage |> Maybe.withDefault NotFound)
         ]
     }
 
@@ -161,22 +160,22 @@ viewMainNav currentPage =
 -- VIEW content
 
 
-viewPageContent : Page -> Html Msg
-viewPageContent currentPage =
+viewMainContent : Page -> Html Msg
+viewMainContent currentPage =
     let
         content : Html msg
         content =
             case currentPage of
                 About ->
-                    PageAbout.view
+                    Page.About.view
 
                 Projects ->
-                    PageProjects.view
+                    Page.Projects.view
 
                 NotFound ->
-                    PageNotFound.view
+                    Page.NotFound.view
     in
-    main_ [] [ content ]
+    main_ [ class "main-content" ] [ content ]
 
 
 
