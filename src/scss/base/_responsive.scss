@@ -1,0 +1,16 @@
+$breakpoints: (
+  "s": 640px,
+  "m": 960px,
+  "l": 1600px,
+);
+
+@mixin respond-to($breakpoint) {
+  @if not map-has-key($breakpoints, $breakpoint) {
+    @error "Bad breakpoint value: `#{$breakpoint}`. "
+        + "Expected values: #{map-keys($breakpoints)}.";
+  }
+
+  @media (min-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
