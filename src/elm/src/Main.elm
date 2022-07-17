@@ -112,7 +112,7 @@ viewMainHeader : Html Msg
 viewMainHeader =
     header [ class "main-header" ]
         [ div [ classList [ ( "main-logo", True ), ( "heading", True ) ] ] [ text "Gregory Albouy" ]
-        , div [ classList [ ( "main-sublogo", True ), ( "heading", True ) ] ] [ text "Software Engineer" ]
+        , div [ class "main-sublogo" ] [ text "Software Engineer" ]
         ]
 
 
