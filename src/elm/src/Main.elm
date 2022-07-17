@@ -8,6 +8,7 @@ import PageAbout
 import PageNotFound
 import PageProjects
 import Url exposing (Url)
+import Url.Builder
 
 
 
@@ -67,7 +68,12 @@ update msg model =
 
 parseUrl : Url -> Maybe Page
 parseUrl url =
-    case url.path of
+    pathToPage url.path
+
+
+pathToPage : String -> Maybe Page
+pathToPage path =
+    case path of
         "/" ->
             Just About
 
@@ -93,7 +99,7 @@ view { currentPage } =
     { title = "Gregory Albouy"
     , body =
         [ viewMainHeader
-        , viewMainNav
+        , viewMainNav currentPage
         , viewPageContent (currentPage |> Maybe.withDefault NotFound)
         ]
     }
@@ -128,14 +134,23 @@ navLinks =
     ]
 
 
-viewMainNav : Html Msg
-viewMainNav =
+viewMainNav : Maybe Page -> Html Msg
+viewMainNav currentPage =
     let
+        isActive : String -> Bool
+        isActive path =
+            pathToPage path == currentPage
+
         toItem : LinkDefinition -> Html msg
         toItem { to, display } =
             li
                 [ class "nav-item" ]
-                [ a [ href to, class "nav-link" ] [ text display ] ]
+                [ a
+                    [ href to
+                    , classList [ ( "nav-link", True ), ( "active", isActive to ) ]
+                    ]
+                    [ text display ]
+                ]
     in
     nav
         [ class "main-nav" ]
