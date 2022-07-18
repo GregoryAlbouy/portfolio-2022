@@ -9,6 +9,15 @@
 
 :construction: **WIP** — Portfolio 2022, Elm SPA.
 
+## Roadmap
+
+In no particular order:
+
+- **content**: update presentation (About), sort out irrelevant projects make detailed presentation for the remaining ones
+- **UI**: responsive layout, projects list, sticky nav, maybe new design from scratch
+- **refactoring**: Sass clean archi
+- **dev**: find better workflow for pulling template repo updates (conflicts on ~every files)
+
 ## Get Started
 
 ### Commands
