@@ -7,7 +7,7 @@ import Project exposing (Project)
 import Url exposing (Url)
 
 
-view : Html msg
+view : List (Html msg)
 view =
     Page.Template.view "Projects"
         [ ul [ class "project-list" ] (Project.map (toProjectCard >> inLi "project-item")) ]

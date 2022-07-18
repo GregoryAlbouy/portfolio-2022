@@ -162,20 +162,16 @@ viewMainNav currentPage =
 
 viewMainContent : Page -> Html Msg
 viewMainContent currentPage =
-    let
-        content : Html msg
-        content =
-            case currentPage of
-                About ->
-                    Page.About.view
+    main_ [ class "main-content" ] <|
+        case currentPage of
+            About ->
+                Page.About.view
 
-                Projects ->
-                    Page.Projects.view
+            Projects ->
+                Page.Projects.view
 
-                NotFound ->
-                    Page.NotFound.view
-    in
-    main_ [ class "main-content" ] [ content ]
+            NotFound ->
+                Page.NotFound.view
 
 
 
