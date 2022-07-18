@@ -10,7 +10,7 @@ $size-factors: (
 
 @function get-content-width($size) {
   @if not map-has-key($size-factors, $size) {
-    @error "Invalid size: $size: expect a valid key of $size-factors";
+    @error "Invalid size: #{$size}. Expect one of: #{map-keys($size-factors)}";
   }
 
   $factor: map-get($size-factors, $size);

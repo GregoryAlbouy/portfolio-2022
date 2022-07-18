@@ -10,7 +10,7 @@ import Url exposing (Url)
 view : Html msg
 view =
     Page.Template.view "Projects"
-        [ ul [ class "projects-list" ] (Project.map (toProjectCard >> inLi "project-item")) ]
+        [ ul [ class "project-list" ] (Project.map (toProjectCard >> inLi "project-item")) ]
 
 
 inLi : String -> Html msg -> Html msg
@@ -57,14 +57,15 @@ viewImgOverlay { demo, repo } =
         toNode content maybeUrl =
             case maybeUrl of
                 Just url ->
-                    a [ href (Url.toString url) ] [ text content ]
+                    a [ href (Url.toString url), class "button" ] [ text content ]
 
                 Nothing ->
                     text ""
     in
-    div [ class "img-overlay" ] [ demo |> toNode "View demo", repo |> toNode "View repo" ]
+    div [ class "img-overlay" ]
+        [ demo |> toNode "View demo", repo |> toNode "View repo" ]
 
 
 viewTagList : List String -> Html msg
 viewTagList tags =
-    ul [ class "tag-list" ] (tags |> List.map (toText >> inLi "tag-item"))
+    ul [ class "tag-list" ] (tags |> List.map (toText >> inLi "tag"))

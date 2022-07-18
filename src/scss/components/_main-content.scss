@@ -1,11 +1,21 @@
+@use '../base/responsive' as r;
+
 .main-content {
+  width: 100%;
   padding: 40px;
+
+  //! TODO
+  // @include r.respond-to("s") {
+  //   padding: 40px 0;
+  //   width: var(--layout-content-width);
+  // }
 
   .page-title {
     font-size: 4rem;
+    margin-bottom: 32px;
   }
 
   .page-body {
-    // TODO
+    //! TODO
   }
 }
