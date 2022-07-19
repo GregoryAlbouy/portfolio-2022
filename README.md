@@ -1,9 +1,9 @@
-# portfolio-elm
+# portfolio-2022
 
 <a href="https://github.com/gregoryalbouy/portfolio-elm/actions">
   <img
     alt="Build Status"
-    src="https://img.shields.io/github/workflow/status/gregoryalbouy/portfolio-elm/Lint%20&%20Test%20&%20Build"
+    src="https://img.shields.io/github/workflow/status/gregoryalbouy/portfolio-2022/Lint%20&%20Test%20&%20Build"
   />
 </a>
 
